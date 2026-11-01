@@ -1,16 +1,16 @@
-# 🚀 Nexus IT Support
+# 🚀 Sovereign IT
 
-Nexus IT is a professional-grade IT Service Management (ITSM) platform built to streamline IT request handling and employee support.
+Sovereign IT is a high-end expert marketplace for professional IT solutions, catering to both corporate enterprises and power-users/gamers.
 
 ## ✨ Features
 
-- **Role-Based Access Control (RBAC):** Separate portals for Employees (requesters) and IT Staff (agents).
-- **Professional Queue Management:** IT agents can filter tickets by priority, status, and category.
-- **SLA Tracking:** Automatic tracking of ticket age with a "Breached" status for tickets older than 48 hours.
-- **Ticket Lifecycle:** Full tracking from `Open` $ightarrow$ `In Progress` $ightarrow$ `Resolved` $ightarrow$ `Closed`.
-- **Integrated Conversations:** Real-time commenting system for communication between employees and IT.
-- **Agent Assignment:** Ability for IT staff to "Claim" tickets and take ownership.
-- **Modern UI:** Built with Bootstrap 5, featuring a responsive sidebar layout and visual priority indicators.
+- **Expert Marketplace:** A discovery engine where clients can find and hire certified pros based on specific skills.
+- **Role-Based Access (RBAC):** Dedicated portals for Clients, Experts, and Admins.
+- **Dynamic Budgeting:** Clients set their own budget for problems, attracting the best experts for the job.
+- **Job Claiming:** Experts can browse the open marketplace and claim jobs they are qualified for.
+- **SLA Tracking:** Automatic monitoring of ticket age to ensure high-speed resolution.
+- **Integrated Conversations:** Real-time chat and update history between the Client and the hired Expert.
+- **Modern UI:** A "Glassmorphism" design with a dark cosmic theme and responsive sidebar.
 
 ## 🛠️ Tech Stack
 
@@ -44,12 +44,12 @@ Open your browser to: `http://127.0.0.1:8080`
 
 | Role | Username | Password |
 | :--- | :--- | :--- |
-| **IT Admin** | `admin` | `admin123` |
-| **Employee** | `employee` | `user123` |
+| **Admin** | `admin` | `admin123` |
+| **Client/Expert** | Create your own via the Signup page | - |
 
 ## ☁️ Deployment
 
-This app is ready for production deployment on **Render.com** or **Railway.app**.
+This app is ready for production deployment on **Render.com**.
 
 1. Connect your GitHub repository to Render.
 2. Set the **Build Command**: `pip install -r requirements.txt`
