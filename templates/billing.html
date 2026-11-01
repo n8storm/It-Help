@@ -1,0 +1,75 @@
+
+{% extends "layout.html" %}
+{% block content %}
+<div class="text-center mb-5">
+    <h2 class="fw-bold">Choose Your Plan</h2>
+    <p class="text-muted">Unlock premium support and unlimited tickets</p>
+</div>
+
+<div class="row g-4 justify-content-center">
+    <div class="col-md-4">
+        <div class="card h-100 p-4 text-center">
+            <div class="mb-3">
+                <h4 class="fw-bold">Free</h4>
+                <div class="display-5 fw-bold">$0<span class="fs-6 text-muted">/mo</span></div>
+            </div>
+            <ul class="list-unstyled mb-4 text-muted">
+                <li><i class="bi bi-check-circle-fill text-success me-2"></i> 1 Active Ticket</li>
+                <li><i class="bi bi-check-circle-fill text-success me-2"></i> Standard Response</li>
+                <li><i class="bi bi-x-circle-fill text-danger me-2"></i> Priority Support</li>
+            </ul>
+            <form method="POST">
+                <input type="hidden" name="plan" value="Free">
+                <button type="submit" class="btn btn-outline-primary w-100 rounded-pill py-2">Current Plan</button>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100 p-4 text-center border-primary" style="border: 2px solid #6366f1 !important;">
+            <div class="mb-3">
+                <span class="badge bg-primary mb-2">MOST POPULAR</span>
+                <h4 class="fw-bold">Pro</h4>
+                <div class="display-5 fw-bold">$29<span class="fs-6 text-muted">/mo</span></div>
+            </div>
+            <ul class="list-unstyled mb-4 text-muted">
+                <li><i class="bi bi-check-circle-fill text-success me-2"></i> 10 Active Tickets</li>
+                <li><i class="bi bi-check-circle-fill text-success me-2"></i> Fast-Track Response</li>
+                <li><i class="bi bi-check-circle-fill text-success me-2"></i> Priority Support</li>
+            </ul>
+            <form method="POST">
+                <input type="hidden" name="plan" value="Pro">
+                <button type="submit" class="btn btn-primary w-100 rounded-pill py-2 shadow">Upgrade to Pro</button>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100 p-4 text-center">
+            <div class="mb-3">
+                <h4 class="fw-bold">Enterprise</h4>
+                <div class="display-5 fw-bold">$99<span class="fs-6 text-muted">/mo</span></div>
+            </div>
+            <ul class="list-unstyled mb-4 text-muted">
+                <li><i class="bi bi-check-circle-fill text-success me-2"></i> Unlimited Tickets</li>
+                <li><i class="bi bi-check-circle-fill text-success me-2"></i> Instant Response</li>
+                <li><i class="bi bi-check-circle-fill text-success me-2"></i> Dedicated Agent</li>
+            </ul>
+            <form method="POST">
+                <input type="hidden" name="plan" value="Enterprise">
+                <button type="submit" class="btn btn-dark w-100 rounded-pill py-2">Go Enterprise</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="text-center mt-5">
+    <div class="card p-4 d-inline-block glass-panel" style="max-width: 600px;">
+        <h5 class="fw-bold mb-3"><i class="bi bi-shield-check me-2"></i>Secure Payment</h5>
+        <p class="small text-muted">We use industry-standard encrypted payment processing. Your data is safe with Nexus Ultra.</p>
+        <div class="d-flex justify-content-center gap-3 opacity-50">
+            <i class="bi bi-credit-card-2-front fs-3"></i>
+            <i class="bi bi-paypal fs-3"></i>
+            <i class="bi bi-apple fs-3"></i>
+        </div>
+    </div>
+</div>
+{% endblock %}

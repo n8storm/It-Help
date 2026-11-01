@@ -5,10 +5,11 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from datetime import datetime, timezone
 from werkzeug.security import generate_password_hash, check_password_hash
+import uuid
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///it_desk.db'
-app.config['SECRET_KEY'] = 'it-professional-secret-key'
+app.config['SECRET_KEY'] = 'nexus-ultra-secret-key-2026'
 db = SQLAlchemy(app)
 
 login_manager = LoginManager()
@@ -18,8 +19,12 @@ login_manager.login_view = 'login'
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), unique=True, nullable=False)
+    email = db.Column(db.String(100), unique=True, nullable=False)
     password = db.Column(db.String(100), nullable=False)
-    role = db.Column(db.String(20), default='Employee')
+    role = db.Column(db.String(20), default='Employee') 
+    plan = db.Column(db.String(20), default='Free')    
+    is_paid = db.Column(db.Boolean, default=False)
+    reset_token = db.Column(db.String(100), nullable=True)
 
 class Ticket(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -52,10 +57,25 @@ def load_user(user_id):
 with app.app_context():
     db.create_all()
     if not User.query.filter_by(username='admin').first():
-        admin = User(username='admin', password=generate_password_hash('admin123'), role='IT')
-        user = User(username='employee', password=generate_password_hash('user123'), role='Employee')
-        db.session.add_all([admin, user])
+        admin = User(username='admin', email='admin@nexus.it', password=generate_password_hash('admin123'), role='IT', plan='Enterprise', is_paid=True)
+        db.session.add(admin)
         db.session.commit()
+
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        if User.query.filter((User.username == username) | (User.email == email)).first():
+            flash('Username or Email already exists!')
+            return redirect(url_for('signup'))
+        new_user = User(username=username, email=email, password=generate_password_hash(password), plan='Free', is_paid=False)
+        db.session.add(new_user)
+        db.session.commit()
+        flash('Account created! Please log in.')
+        return redirect(url_for('login'))
+    return render_template('signup.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -66,6 +86,44 @@ def login():
             return redirect(url_for('dashboard'))
         flash('Invalid credentials')
     return render_template('login.html')
+
+@app.route('/forgot-password', methods=['GET', 'POST'])
+def forgot_password():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        user = User.query.filter_by(email=email).first()
+        if user:
+            token = str(uuid.uuid4())
+            user.reset_token = token
+            db.session.commit()
+            flash(f'Password reset link sent to {email}! (Token: {token})')
+            return redirect(url_for('login'))
+        flash('Email not found.')
+    return render_template('forgot_password.html')
+
+@app.route('/reset-password/<token>', methods=['GET', 'POST'])
+def reset_password(token):
+    user = User.query.filter_by(reset_token=token).first()
+    if not user: abort(404)
+    if request.method == 'POST':
+        user.password = generate_password_hash(request.form.get('password'))
+        user.reset_token = None
+        db.session.commit()
+        flash('Password updated successfully!')
+        return redirect(url_for('login'))
+    return render_template('reset_password.html')
+
+@app.route('/billing', methods=['GET', 'POST'])
+@login_required
+def billing():
+    if request.method == 'POST':
+        plan = request.form.get('plan')
+        current_user.plan = plan
+        current_user.is_paid = True
+        db.session.commit()
+        flash(f'Welcome to the {plan} plan! Your account is now premium.')
+        return redirect(url_for('dashboard'))
+    return render_template('billing.html')
 
 @app.route('/logout')
 @login_required
@@ -84,6 +142,9 @@ def dashboard():
 @app.route('/ticket/new', methods=['GET', 'POST'])
 @login_required
 def new_ticket():
+    if not current_user.is_paid and current_user.role != 'IT':
+        flash('Payment required to create tickets. Please visit the billing page.')
+        return redirect(url_for('billing'))
     if request.method == 'POST':
         due_date_str = request.form.get('due_date')
         due_date = datetime.strptime(due_date_str, '%Y-%m-%d').date() if due_date_str else None
