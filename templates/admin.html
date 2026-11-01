@@ -1,0 +1,31 @@
+
+{% extends "layout.html" %}
+{% block content %}
+<h2>IT Request Queue</h2>
+<table class="table table-hover bg-white shadow-sm">
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Priority</th>
+            <th>Status</th>
+            <th>Owner</th>
+            <th>Due Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for ticket in tickets %}
+        <tr>
+            <td>{{ ticket.id }}</td>
+            <td>{{ ticket.title }}</td>
+            <td><span class="badge {% if ticket.priority == 'Urgent' %}bg-danger{% elif ticket.priority == 'High' %}bg-warning text-dark{% else %}bg-secondary{% endif %}">{{ ticket.priority }}</span></td>
+            <td><span class="badge bg-info text-dark">{{ ticket.status }}</span></td>
+            <td>{{ ticket.owner }}</td>
+            <td>{{ ticket.due_date }}</td>
+            <td><a href="/admin/ticket/{{ ticket.id }}" class="btn btn-sm btn-primary">Manage</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

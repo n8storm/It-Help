@@ -1,0 +1,53 @@
+
+{% extends "layout.html" %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card p-4 shadow-sm">
+            <h2 class="fw-bold">Submit New Request</h2>
+            <p class="text-muted mb-4">Please provide as much detail as possible to help us resolve your issue quickly.</p>
+            <form method="POST">
+                <div class="row">
+                    <div class="col-md-8 mb-3">
+                        <label class="form-label">Issue Title</label>
+                        <input type="text" name="title" class="form-control" placeholder="Briefly describe the problem" required>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Category</label>
+                        <select name="category" class="form-select">
+                            <option value="General">General</option>
+                            <option value="Hardware">Hardware</option>
+                            <option value="Software">Software</option>
+                            <option value="Access">Access/Permissions</option>
+                            <option value="Network">Network</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Detailed Description</label>
+                    <textarea name="description" class="form-control" rows="6" placeholder="What happened? What were you doing? Any error messages?" required></textarea>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Priority</label>
+                        <select name="priority" class="form-select">
+                            <option value="Low">Low (Minor inconvenience)</option>
+                            <option value="Medium" selected>Medium (Normal work interrupted)</option>
+                            <option value="High">High (Critical work blocked)</option>
+                            <option value="Urgent">Urgent (Company-wide outage)</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Requested Due Date</label>
+                        <input type="date" name="due_date" class="form-control">
+                    </div>
+                </div>
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary px-4">Submit Request</button>
+                    <a href="/" class="btn btn-outline-secondary px-4">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
