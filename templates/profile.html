@@ -1,0 +1,33 @@
+
+{% extends "layout.html" %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card p-4 shadow-sm">
+            <h2 class="fw-bold mb-4">My Profile</h2>
+            <form method="POST">
+                <div class="mb-3">
+                    <label class="form-label">Role</label>
+                    <select name="role" class="form-select">
+                        <option value="Client" {% if current_user.role == 'Client' %}selected{% endif %}>Client (I need help)</option>
+                        <option value="Expert" {% if current_user.role == 'Expert' %}selected{% endif %}>Expert (I fix things)</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Bio</label>
+                    <textarea name="bio" class="form-control" rows="3" placeholder="Tell the world about your skills...">{{ current_user.bio or '' }}</textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Skills (comma separated)</label>
+                    <input type="text" name="skills" class="form-control" placeholder="e.g. PC Gaming, Python, Network Security" value="{{ current_user.skills or '' }}">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Hourly Rate ($)</label>
+                    <input type="number" name="hourly_rate" class="form-control" value="{{ current_user.hourly_rate }}">
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Save Profile</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
